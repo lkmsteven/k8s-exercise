@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: testpod
+  name: testpod
+spec:
+  containers:
+  - image: alpine
+    name: testpod
+    command: [ "/bin/sh" ]
+    args: [ "-c", "while true; do sleep 300; done;" ]
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
