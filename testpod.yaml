@@ -9,7 +9,10 @@ spec:
   containers:
   - image: alpine
     name: testpod
-    command: [ "/bin/sh" ]
-    args: [ "-c", "while true; do sleep 300; done;" ]
+    command: [ "/bin/sh", "-c" ]
+    args:
+    - while true; do
+        sleep 300;
+      done;
   dnsPolicy: ClusterFirst
   restartPolicy: Always
