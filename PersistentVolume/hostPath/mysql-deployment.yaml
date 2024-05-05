@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mysql-deployment
+  name: mysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-deployment
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: mysql-deployment
+    spec:
+      containers:
+      - image: mysql:8.0
+        name: mysql
+
+        volumeMounts:
+        - mountPath: "/var/lib/mysql"
+          name: hostpath-volume
+      volumes:
+      - name: hostpath-volume
+        persistentVolumeClaim:
+          claimName: hostpath-pvc

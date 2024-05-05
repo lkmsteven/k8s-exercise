@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-sidecar-deployment
+  name: nginx-sidecar-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-sidecar-deployment
+  template:
+    metadata:
+      labels:
+        app: nginx-sidecar-deployment
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
+
+        volumeMounts:
+        - mountPath: /var/sidecar-log
+          name: sidecar-log-volume
+
+      - image: busybox
+        name: busybox
+        volumeMounts:
+        - mountPath: /var/sidecar
+          name: sidecar-log-volume
+        command: ["sh","-c"]
+        args:
+        - i=1;
+          while true; do
+          echo "writing $i line.\n" >> /var/sidecar/sidecar-log.txt;
+          i=$(($i+1));
+          sleep 5;
+          done;
+
+      volumes:
+      - name: sidecar-log-volume
+        emptyDir: 
+          sizeLimit: 500Mi
+
